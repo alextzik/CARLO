@@ -5,20 +5,22 @@ from geometry import Point
 import time
 from tkinter import *
 
+############################################################################################
+### WORLD INITIALIZATION
+
+# Indicate how the agent is being controlled: controller code or user input
 human_controller = True
 
 dt = 0.1 # time steps in terms of seconds. In other words, 1/dt is the FPS.
 world_width = 120 # in meters
-world_height = 120
-inner_building_radius = 30
-num_lanes = 2
+world_height = 120 # in meters
+inner_building_radius = 30 # inner radius of circular road
+num_lanes = 5 # lanes of road
 lane_marker_width = 0.5
 num_of_lane_markers = 50
 lane_width = 3.5
 
 w = World(dt, width = world_width, height = world_height, ppm = 6) # The world is 120 meters by 120 meters. ppm is the pixels per meter.
-
-
 
 # Let's add some sidewalks and RectangleBuildings.
 # A Painting object is a rectangle that the vehicles cannot collide with. So we use them for the sidewalks / zebra crossings / or creating lanes.
@@ -82,7 +84,7 @@ else: # Let's use the keyboard input for human control
     from interactive_controllers import KeyboardController
     c1.set_control(0., 0.) # Initially, the car will have 0 steering and 0 throttle.
     controller = KeyboardController(w)
-    for k in range(600):
+    while True:
         c1.set_control(controller.steering, controller.throttle)
         w.tick() # This ticks the world for one time step (dt second)
         w.render()
