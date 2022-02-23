@@ -27,6 +27,7 @@ w = World(dt, width = world_width, height = world_height, ppm = 6) # The world i
 # A CircleBuilding or RingBuilding object is also static -- they do not move. But as opposed to Painting, they can be collided with.
 
 # To create a circular road, we will add a CircleBuilding and then a RingBuilding around it
+# The car will be able to move anywhere, except within the CircleBuilding and the RingBuilding
 cb = CircleBuilding(Point(world_width/2, world_height/2), inner_building_radius, 'gray80')
 w.add(cb)
 rb = RingBuilding(Point(world_width/2, world_height/2), inner_building_radius + num_lanes * lane_width + (num_lanes - 1) * lane_marker_width, 1+np.sqrt((world_width/2)**2 + (world_height/2)**2), 'gray80')
@@ -52,6 +53,8 @@ w.render() # This visualizes the world we just constructed.
 
 
 
+############################################################################################
+### Controller Portion
 if not human_controller:
     # Let's implement some simple policy for the car c1
     desired_lane = 1
@@ -73,7 +76,7 @@ if not human_controller:
         else: c1.set_control(-0.1, 0.1)
         
         w.tick() # This ticks the world for one time step (dt second)
-        w.render()
+        w.render() # renders changes world
         time.sleep(dt/4) # Let's watch it 4x
 
         if w.collision_exists(): # We can check if there is any collision at all.
